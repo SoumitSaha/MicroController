@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Atmel Studio Solution File, Format Version 11.00
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "GccApplication1", "GccApplication1\GccApplication1.cppproj", "{E227037E-7801-4D8B-93BD-8F33A035FD61}"
 EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "GccApplication2", "..\..\eeprom test\GccApplication2\GccApplication2.cppproj", "{C67CCB2A-E341-4F84-AEB6-EC9100C61F61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -13,6 +15,10 @@ Global
 		{E227037E-7801-4D8B-93BD-8F33A035FD61}.Debug|AVR.Build.0 = Debug|AVR
 		{E227037E-7801-4D8B-93BD-8F33A035FD61}.Release|AVR.ActiveCfg = Release|AVR
 		{E227037E-7801-4D8B-93BD-8F33A035FD61}.Release|AVR.Build.0 = Release|AVR
+		{C67CCB2A-E341-4F84-AEB6-EC9100C61F61}.Debug|AVR.ActiveCfg = Debug|AVR
+		{C67CCB2A-E341-4F84-AEB6-EC9100C61F61}.Debug|AVR.Build.0 = Debug|AVR
+		{C67CCB2A-E341-4F84-AEB6-EC9100C61F61}.Release|AVR.ActiveCfg = Release|AVR
+		{C67CCB2A-E341-4F84-AEB6-EC9100C61F61}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
