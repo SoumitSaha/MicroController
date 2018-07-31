@@ -32,6 +32,22 @@ void Do()
 	PORTC = 0b11111111;
 }
 
+void Re_()
+{
+	float frequency=555.1586614;
+	float periodMS=(1/frequency)*1000;
+	int cycles=durationMS/periodMS;
+	PORTC = 0b00000010;
+	for(int i=0; i<cycles; i++)
+	{
+		_delay_ms(0.90064);
+		PORTB=1;
+		_delay_ms(0.90064);
+		PORTB=0;
+	}
+	PORTC = 0b11111111;
+}
+
 void Re()
 {
 	float frequency=588.1701133;
@@ -48,6 +64,22 @@ void Re()
 	PORTC = 0b11111111;
 }
 
+void Mi_()
+{
+	float frequency=623.1445282;
+	float periodMS=(1/frequency)*1000;
+	int cycles=durationMS/periodMS;
+	PORTC = 0b00000100;
+	for(int i=0; i<cycles; i++)
+	{
+		_delay_ms(.80238);
+		PORTB=1;
+		_delay_ms(.80238);
+		PORTB=0;
+	}
+	PORTC = 0b11111111;
+}
+
 void Mi()
 {
 	float frequency=660.1986301;
@@ -59,6 +91,23 @@ void Mi()
 		_delay_ms(.75734);
 		PORTB=1;
 		_delay_ms(.75734);
+		PORTB=0;
+	}
+	PORTC = 0b11111111;
+}
+
+void Fa_()
+{
+	float frequency=741.0479066;
+	float periodMS=(1/frequency)*1000;
+	
+	int cycles=durationMS/periodMS;
+	PORTC = 0b00001000;
+	for(int i=0; i<cycles; i++)
+	{
+		_delay_ms(.67472);
+		PORTB=1;
+		_delay_ms(.67472);
 		PORTB=0;
 	}
 	PORTC = 0b11111111;
@@ -98,6 +147,23 @@ void So()
 	PORTC = 0b11111111;
 }
 
+void La_()
+{
+	float frequency=831.7981511;
+	float periodMS=(1/frequency)*1000;
+	
+	int cycles=durationMS/periodMS;
+	PORTC = 0b00100000;
+	for(int i=0; i<cycles; i++)
+	{
+		_delay_ms(0.6011073);
+		PORTB=1;
+		_delay_ms(0.6011073);
+		PORTB=0;
+	}
+	PORTC = 0b11111111;
+}
+
 void La()
 {
 	float frequency=881.2594431;
@@ -114,6 +180,24 @@ void La()
 	}
 	PORTC = 0b11111111;
 }
+
+void Ti_()
+{
+	float frequency=933.6618565;
+	float periodMS=(1/frequency)*1000;
+	
+	int cycles=durationMS/periodMS;
+	PORTC = 0b01000000;
+	for(int i=0; i<cycles; i++)
+	{
+		_delay_ms(0.5355257);
+		PORTB=1;
+		_delay_ms(0.5355257);
+		PORTB=0;
+	}
+	PORTC = 0b11111111;
+}
+
 
 void Ti()
 {
@@ -203,7 +287,28 @@ void readNote(char data)
 	{
 		DoHigh();
 	}
+	if (data==10)
+	{
+		Re_();
+	}
+	if(data==11)
+	{
+		Mi_();
+	}
+	if(data==12)
+	{
+		Fa_();
+	}
+	if(data==13)
+	{
+		La_();
+	}
+	if(data==14)
+	{
+		Ti_();
+	}
 }
+
 
 void playNote1s(char data)
 {
@@ -278,6 +383,7 @@ int main(void)
 		int result=ADCH;
 		double y=(result/256.0)*3.17;
 		unsigned char a=PINA;
+		unsigned char b=PIND;
 		if((a&1) || (y>1.1))
 		{
 			if(save)
@@ -344,7 +450,48 @@ int main(void)
 				}
 				DoHigh();
 			}
+			else if(b&(1<<3))
+			{
+				if(save)
+				{
+					EEPROMWrite(EEPROMAddress++, 10);
+				}
+				Re_();
+			}
+			else if (b&(1<<4))
+			{
+				if(save)
+				{
+					EEPROMWrite(EEPROMAddress++, 11);
+				}
+				Mi_();
+			}
+			else if (b&(1<<5))
+			{
+				if(save)
+				{
+					EEPROMWrite(EEPROMAddress++, 12);
+				}
+				Fa_();
+			}
+			else if (b&(1<<6))
+			{
+				if(save)
+				{
+					EEPROMWrite(EEPROMAddress++, 13);
+				}
+				La_();
+			}
+			else if(b&(1<<7))
+			{
+				if(save)
+				{
+					EEPROMWrite(EEPROMAddress++, 14);
+				}
+				Ti_();
+			}
 		}
-	PORTC = 0b11111111;				
+	PORTC = 0b11111111;
+	//PORTB = 0b11111011;		
     }
 }
