@@ -18,119 +18,135 @@ int EEPROMAddress=0;
 
 void Do()
 {
-	float frequency=262;
+	float frequency=524;
 	float periodMS=(1/frequency)*1000;
 	int cycles=durationMS/periodMS;
+	PORTC = 0b11111110;
 	for(int i=0; i<cycles; i++)
 	{
-		_delay_ms(1.90839);
+		_delay_ms(0.95419);
 		PORTB=1;
-		_delay_ms(1.90839);
+		_delay_ms(0.95419);
 		PORTB=0;
 	}
+	PORTC = 0b11111111;
 }
 
 void Re()
 {
-	float frequency=294.08;
+	float frequency=588.1701133;
 	float periodMS=(1/frequency)*1000;
 	int cycles=durationMS/periodMS;
+	PORTC = 0b11111101;
 	for(int i=0; i<cycles; i++)
 	{
-		_delay_ms(1.7);
+		_delay_ms(.850094);
 		PORTB=1;
-		_delay_ms(1.7);
+		_delay_ms(.850094);
 		PORTB=0;
 	}
+	PORTC = 0b11111111;
 }
 
 void Mi()
 {
-	float frequency=330.099;
+	float frequency=660.1986301;
 	float periodMS=(1/frequency)*1000;
 	int cycles=durationMS/periodMS;
+	PORTC = 0b11111011;
 	for(int i=0; i<cycles; i++)
 	{
-		_delay_ms(1.5147);
+		_delay_ms(.75734);
 		PORTB=1;
-		_delay_ms(1.5147);
+		_delay_ms(.75734);
 		PORTB=0;
 	}
+	PORTC = 0b11111111;
 }
 
 void Fa()
 {
-	float frequency=349.7277;
+	float frequency=699.4560835;
 	float periodMS=(1/frequency)*1000;
 	
 	int cycles=durationMS/periodMS;
+	PORTC = 0b11110111;
 	for(int i=0; i<cycles; i++)
 	{
-		_delay_ms(1.42968);
+		_delay_ms(.71484);
 		PORTB=1;
-		_delay_ms(1.42968);
+		_delay_ms(.71484);
 		PORTB=0;
 	}
+	PORTC = 0b11111111;
 }
 
 void So()
 {
-	float frequency=392.5560;
+	float frequency=785.1129082;
 	float periodMS=(1/frequency)*1000;
 	
 	int cycles=durationMS/periodMS;
+	PORTC = 0b11101111;
 	for(int i=0; i<cycles; i++)
 	{
-		_delay_ms(1.2737);
+		_delay_ms(0.63685);
 		PORTB=1;
-		_delay_ms(1.2737);
+		_delay_ms(0.63685);
 		PORTB=0;
 	}
+	PORTC = 0b11111111;
 }
 
 void La()
 {
-	float frequency=440.6292;
+	float frequency=881.2594431;
 	float periodMS=(1/frequency)*1000;
 	
 	int cycles=durationMS/periodMS;
+	PORTC = 0b11011111;
 	for(int i=0; i<cycles; i++)
 	{
-		_delay_ms(1.13474);
+		_delay_ms(0.56736);
 		PORTB=1;
-		_delay_ms(1.13474);
+		_delay_ms(0.56736);
 		PORTB=0;
 	}
+	PORTC = 0b11111111;
 }
 
 void Ti()
 {
-	float frequency=494.58955;
+	float frequency=989.1802796;
 	float periodMS=(1/frequency)*1000;
 	
 	int cycles=durationMS/periodMS;
+	PORTC = 0b10111111;
 	for(int i=0; i<cycles; i++)
 	{
-		_delay_ms(1.0109);
+		_delay_ms(0.50546);
 		PORTB=1;
-		_delay_ms(1.0109);
+		_delay_ms(0.50546);
 		PORTB=0;
 	}
+	PORTC = 0b11111111;
 }
 
 void DoHigh()
 {
-	float frequency=524;
+	float frequency=1048;
 	float periodMS=(1/frequency)*1000;
 	
 	int cycles=durationMS/periodMS;
+	PORTC = 0b01111111;
 	for(int i=0; i<cycles; i++)
 	{
-		_delay_ms(.95419);
+		_delay_ms(.477099);
 		PORTB=1;
-		_delay_ms(.95419);
+		_delay_ms(.477099);
 		PORTB=0;
 	}
+	PORTC = 0b11111111;
 }
 
 
@@ -245,15 +261,24 @@ int main(void)
 	MCUCR |= 3; 
 	MCUCSR |= (1<<ISC2);
 	DDRA=0x00;
+	DDRC = 0xFF;
+	MCUCSR |= (1<<JTD);
+	MCUCSR |= (1<<JTD);
+	PORTC = 0xFF;
+	ADMUX=0b00100000;
+	ADCSRA=0b10000000;
 	//EEPROMClear();
 	sei();
 	
 	
     while(1)
     {
-		
+		ADCSRA|=(1<<ADSC);
+		while(ADCSRA&(1<<ADSC)){;}
+		int result=ADCH;
+		double y=(result/256.0)*3.17;
 		unsigned char a=PINA;
-		if(a&1)
+		if((a&1) || (y>1.1))
 		{
 			if(save)
 			{
@@ -320,6 +345,6 @@ int main(void)
 				DoHigh();
 			}
 		}
-					
+	PORTC = 0b11111111;				
     }
 }
