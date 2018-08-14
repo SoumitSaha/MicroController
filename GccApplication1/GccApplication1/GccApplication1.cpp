@@ -330,6 +330,7 @@ void EEPROMClear()
 
 ISR(INT2_vect){
 	save = 1 - save;
+	_delay_ms(100);
 	if(save==0)
 	{
 		EEPROMWrite(EEPROMAddress, 9);
@@ -381,7 +382,7 @@ int main(void)
 		ADCSRA|=(1<<ADSC);
 		while(ADCSRA&(1<<ADSC)){;}
 		int result=ADCH;
-		double y=(result/256.0)*3.17;
+		double y=(result/256.0)*5.0;
 		unsigned char a=PINA;
 		unsigned char b=PIND;
 		if((a&1) || (y>1.1))
